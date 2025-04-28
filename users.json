@@ -1,0 +1,22 @@
+{
+  "nomenjanahary": {
+    "id": "1",
+    "username": "nomenjanahary",
+    "password": "azerty",
+    "role": "CISO",
+    "entity": "Axian"
+  },
+  "admin": {
+    "id": "2",
+    "username": "admin",
+    "password": "admin123",
+    "role": "Admin"
+  },
+  "riantsoa": {
+    "id": "3",
+    "username": "riantsoa",
+    "password": "wxcvb",
+    "role": "CISO",
+    "entity": "Mvola"
+  }
+}
