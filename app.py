@@ -100,6 +100,10 @@ def send_admin_notification(license_type, price, validity, expiration_date, subm
 def home():
     return render_template("index.html")
 
+@app.route("/insertion")
+def insertion():
+    return render_template("insertion.html") 
+
 @app.route("/licenses", methods=["GET"])
 def get_licenses():
     return jsonify(load_db())

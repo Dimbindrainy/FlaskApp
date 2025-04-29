@@ -19,74 +19,43 @@
 <body>
     <div class="container py-5">
         <div class="text-center mb-5">
-            <h1 class="fw-bold display-5 text-primary">🎫 License Manager</h1>
+            <h1 class="fw-bold display-5 text-primary">License Dashboard</h1>
             <p class="lead text-muted">Manage software licenses with ease and clarity</p>
         </div>
-
-        <!-- Add License Form -->
-        <div class="row justify-content-center mb-5">
-            <div class="col-md-8">
-                <div class="card shadow-sm border-0">
-                    <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0">Add New License</h5>
-                    </div>
-                    <div class="card-body">
-                        <form id="license-form">
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label for="license_type" class="form-label">License Type</label>
-                                    <input type="text" class="form-control" id="license_type" placeholder="e.g. Enterprise" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="price" class="form-label">Price</label>
-                                    <input type="text" class="form-control" id="price" placeholder="e.g. $99.99" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="validity" class="form-label">Validity</label>
-                                    <input type="text" class="form-control" id="validity" placeholder="e.g. 1 Year" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="expiration_date" class="form-label">Expiration Date</label>
-                                    <input type="date" class="form-control" id="expiration_date" required>
-                                </div>
-                                <div class="col-12 text-end mt-3">
-                                    <button type="submit" class="btn btn-success px-4">Add License</button>
-                                </div>
-                            </div>
-                        </form>
+        
+    <div class="text-end mb-5" style="margin:100px; margin-top:0px">
+        <a href="{{ url_for('insertion') }}">
+            <button class="btn btn-success px-4">Add New License</button>
+        </a>
+    </div>
+    <!-- License Table -->
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">License List</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped mb-0" id="license-table">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Price</th>
+                                    <th>Validity</th>
+                                    <th>Expiration</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- License entries will go here -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- License Table -->
-        <div class="row justify-content-center">
-            <div class="col-md-10">
-                <div class="card shadow-sm border-0">
-                    <div class="card-header bg-dark text-white">
-                        <h5 class="mb-0">License List</h5>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table table-hover table-striped mb-0" id="license-table">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th>Type</th>
-                                        <th>Price</th>
-                                        <th>Validity</th>
-                                        <th>Expiration</th>
-                                        <th class="text-center">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- License entries will go here -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    </div>
     </div>
     <style>
         .badge {

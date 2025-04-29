@@ -5,4 +5,12 @@
     "password": "",
     "role": "CISO",
     "entity": ""
+  },
+  "Zo": {
+    "id": "2",
+    "username": "Zo",
+    "password": "anemon05",
+    "role": "Admin",
+    "entity": null
   }
+}

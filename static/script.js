@@ -1,32 +1,38 @@
 const API_BASE = "";
 
-document.getElementById("license-form").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const form = e.target;
+const form = document.getElementById("license-form");
+if (form) {
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  const license = {
-    license_type: form.license_type.value,
-    price: form.price.value,
-    validity: form.validity.value,
-    expiration_date: form.expiration_date.value,
-  };
+    const license = {
+      license_type: form.license_type.value,
+      price: form.price.value,
+      validity: form.validity.value,
+      expiration_date: form.expiration_date.value,
+    };
 
-  const res = await fetch(`${API_BASE}/license`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(license),
+    const res = await fetch(`${API_BASE}/license`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(license),
+    });
+
+    if (res.ok) {
+      loadLicenses();
+      form.reset();
+      showAlert("License added successfully!", "success");
+    } else {
+      const error = await res.json();
+      showAlert(error.error || "Failed to add license", "danger");
+    }
   });
+}
 
-  if (res.ok) {
-    loadLicenses();
-    form.reset();
-    showAlert("License added successfully!", "success");
-  } else {
-    const error = await res.json();
-    showAlert(error.error || "Failed to add license", "danger");
-  }
-});
-
+// Load licenses only if the table exists
+if (document.querySelector("#license-table")) {
+  loadLicenses();
+}
 function showAlert(message, type = "info") {
   const container = document.createElement("div");
   container.className = `alert alert-${type} alert-dismissible fade show mt-3`;
