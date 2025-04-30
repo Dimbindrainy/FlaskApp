@@ -105,8 +105,8 @@ def send_admin_notification(license_type, price, validity, expiration_date, subm
 @login_required
 def home():
     user_info = {
-        "username": session.get("username"),
-        "entity": session.get("entity")
+        "username": current_user.username,
+        "entity": current_user.entity
     }
     return render_template("index.html",user=user_info)
 
