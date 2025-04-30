@@ -3,6 +3,7 @@ from datetime import datetime
 from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin, current_user
 from flask import Flask, render_template, request, redirect, url_for, session
 
+from uuid import uuid4
 import uuid
 import json
 import os
@@ -53,6 +54,11 @@ def load_users():
         return {}
     with open(USERS_FILE, "r") as f:
         return json.load(f)
+    
+# Save Users
+def save_users(users):
+    with open(USERS_FILE, "w") as f:
+        json.dump(users, f, indent=2)
 
 # Simple User class
 class User(UserMixin):
@@ -98,7 +104,11 @@ def send_admin_notification(license_type, price, validity, expiration_date, subm
 @app.route("/")
 @login_required
 def home():
-    return render_template("index.html")
+    user_info = {
+        "username": session.get("username"),
+        "entity": session.get("entity")
+    }
+    return render_template("index.html",user=user_info)
 
 @app.route("/insertion")
 def insertion():
@@ -107,6 +117,12 @@ def insertion():
 @app.route("/licenses", methods=["GET"])
 def get_licenses():
     return jsonify(load_db())
+
+@app.route("/users")
+def get_users():
+    data = load_users()
+    users = list(data.values())
+    return jsonify({"users": users})
 
 @app.route("/license", methods=["POST"])
 @login_required
@@ -163,13 +179,40 @@ def login():
 
         user_data = users.get(username)
         if user_data and user_data["password"] == password:
+            if user_data["status"] == "pending":
+                return "Your account is pending approval by an admin.", 403
             user = User(user_data["id"], username, user_data["role"], user_data.get("entity"))
             login_user(user)
-            return render_template("index.html")
+            user_info = {
+                "username": username,
+                "entity": user_data.get("entity")
+            }
+            return render_template("index.html",user=user_info)
         return "Invalid credentials", 401
 
     return render_template("login.html")
 
+"""
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+        users = load_users()
+
+        user = next((u for u in users if u["username"] == username and u["password"] == password), None)
+        
+        if not user:
+            return "Invalid credentials", 401
+        
+        if user["status"] != "approved":
+            return "Your account is pending approval by an admin.", 403
+
+        login_user(User(**user))
+        return redirect(url_for("index.html"))
+    
+    return render_template("login.html")
+"""
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
@@ -188,7 +231,8 @@ def register():
             "username": username,
             "password": password,
             "role": role,
-            "entity": entity
+            "entity": entity,
+            "status": "pending"
         }
 
         with open(USERS_FILE, "w") as f:
@@ -197,6 +241,25 @@ def register():
         return redirect(url_for("login"))
 
     return render_template("register.html")
+
+@app.route("/admin/users")
+@login_required
+def admin_users():
+    if current_user.role != "Admin":
+        return "Unauthorized", 403
+
+    users = load_users()
+    return render_template("admin_users.html", users=users)
+
+@app.route("/approve_user/<user_id>", methods=["POST"])
+def approve_user(user_id):
+    data = load_users()
+    for user_key, user in data.items():
+        if user.get("id") == user_id:
+            user["status"] = "approved"
+            save_users(data)
+            return jsonify({"message": "User approved"})
+    return jsonify({"error": "User not found"}), 404
 
 
 if __name__ == "__main__":

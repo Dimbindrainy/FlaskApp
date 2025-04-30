@@ -1,1 +1,24 @@
-[]
+[
+  {
+    "id": "0271461b-56a7-4a8f-bd09-bd8859362b09",
+    "license_type": "Dashlane",
+    "price": "$45",
+    "validity": "6 Years",
+    "expiration_date": "2025-07-17",
+    "entity": "Mvola"
+  },
+  {
+    "id": "8f35be74-0838-4caf-b7ee-0c63777af81f",
+    "license_type": "Microsoft 365",
+    "price": "$34",
+    "validity": "3 Years",
+    "expiration_date": "2026-06-10"
+  },
+  {
+    "id": "9bd584fe-83b7-4444-b59a-8e66273e1e7d",
+    "license_type": "Avast",
+    "price": "$36",
+    "validity": "5 Years",
+    "expiration_date": "2025-07-31"
+  }
+]

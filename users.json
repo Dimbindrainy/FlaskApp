@@ -1,16 +1,42 @@
 {
-  "nomenjanahary": {
-    "id": "1",
-    "username": "",
-    "password": "",
-    "role": "CISO",
-    "entity": ""
-  },
   "Zo": {
     "id": "2",
     "username": "Zo",
     "password": "anemon05",
     "role": "Admin",
-    "entity": null
+    "entity": null,
+    "status": "approved"
+  },
+  "riantsoa": {
+    "id": "3",
+    "username": "riantsoa",
+    "password": "wxc",
+    "role": "CISO",
+    "entity": "Mvola",
+    "status": "approved"
+  },
+  "admin": {
+    "id": "0",
+    "username": "admin",
+    "password": "admin123",
+    "role": "Admin",
+    "entity": null,
+    "status": "approved"
+  },
+  "John": {
+    "id": "4",
+    "username": "John",
+    "password": "aze",
+    "role": "Admin",
+    "entity": null,
+    "status": "approved"
+  },
+  "Rajo": {
+    "id": "5",
+    "username": "Rajo",
+    "password": "poi",
+    "role": "CISO",
+    "entity": "Pulse",
+    "status": "approved"
   }
 }
