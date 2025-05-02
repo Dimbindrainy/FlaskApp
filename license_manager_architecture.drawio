@@ -1,0 +1,51 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="License Management Architecture" id="license-manager">
+    <mxGraphModel dx="1000" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="frontend" value="Frontend (React/Vue)" style="shape=rectangle;fillColor=#ADD8E6;" vertex="1" parent="1">
+          <mxGeometry x="80" y="80" width="160" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="backend" value="Backend (Flask API)" style="shape=rectangle;fillColor=#90EE90;" vertex="1" parent="1">
+          <mxGeometry x="300" y="80" width="160" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="database" value="Database (PostgreSQL)" style="shape=cylinder;fillColor=#FFFFE0;" vertex="1" parent="1">
+          <mxGeometry x="540" y="80" width="160" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="email" value="Email Alert Service" style="shape=rectangle;fillColor=#F08080;" vertex="1" parent="1">
+          <mxGeometry x="300" y="160" width="160" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="export" value="CSV Export Service" style="shape=rectangle;fillColor=#D3D3D3;" vertex="1" parent="1">
+          <mxGeometry x="300" y="240" width="160" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="auth" value="Authentication (JWT)" style="shape=rectangle;fillColor=#FFA500;" vertex="1" parent="1">
+          <mxGeometry x="300" y="320" width="160" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="s3" value="File Storage (AWS S3)" style="shape=rectangle;fillColor=#FFB6C1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="400" width="160" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- Edges -->
+        <mxCell id="e1" style="endArrow=block;" edge="1" source="frontend" target="backend" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e2" style="endArrow=block;" edge="1" source="backend" target="database" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e3" style="endArrow=block;" edge="1" source="backend" target="email" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e4" style="endArrow=block;" edge="1" source="backend" target="export" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e5" style="endArrow=block;" edge="1" source="backend" target="auth" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e6" style="endArrow=block;" edge="1" source="backend" target="s3" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
