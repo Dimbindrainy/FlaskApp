@@ -2,19 +2,12 @@ from flask import Flask, request, jsonify, render_template
 from datetime import datetime
 from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin, current_user
 from flask import Flask, render_template, request, redirect, url_for, session
+from flask_mail import Mail, Message
 
 from uuid import uuid4
 import uuid
 import json
 import os
-import smtplib
-from email.mime.text import MIMEText
-
-ADMIN_EMAIL = "nomenjanhr@gmail.com"
-EMAIL_SENDER = "example@gmail.com"
-EMAIL_PASSWORD = "**********"  # Use an app password, not your Gmail password
-SMTP_SERVER = "smtp.gmail.com"
-SMTP_PORT = 587
 
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
@@ -22,6 +15,31 @@ app.secret_key = "secret-key-change-this"
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
+
+# Gmail configuration 
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'  
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'your-email@gmail.com'
+app.config['MAIL_PASSWORD'] = '16-digit code from gmail app code'
+app.config['MAIL_DEFAULT_SENDER'] = ('License Manager', 'your-email@gmail.com')
+
+
+mail = Mail(app)
+
+def send_notification_email(subject, recipients, body):
+    try:
+        msg = Message(
+            subject=subject,
+            recipients=recipients,
+            body=body
+        )
+        mail.send(msg)
+        return True
+    except Exception as e:
+        print("Email sending failed:", e)
+        return False
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -71,35 +89,6 @@ class User(UserMixin):
     def get_role(self):
         return self.role
 
-def send_admin_notification(license_type, price, validity, expiration_date, submitted_by):
-    subject = "New License Submitted for Approval"
-    body = f"""
-    A new license has been submitted:
-
-    - Type: {license_type}
-    - Price: {price}
-    - Validity: {validity}
-    - Expiration Date: {expiration_date}
-    - Submitted by: {submitted_by}
-
-    Please log in to the admin panel to approve or reject it.
-    """
-
-    msg = MIMEText(body)
-    msg["Subject"] = subject
-    msg["From"] = EMAIL_SENDER
-    msg["To"] = ADMIN_EMAIL
-
-    try:
-        server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
-        server.starttls()
-        server.login(EMAIL_SENDER, EMAIL_PASSWORD)
-        server.sendmail(EMAIL_SENDER, ADMIN_EMAIL, msg.as_string())
-        server.quit()
-        print("Admin notified successfully.")
-    except Exception as e:
-        print("Failed to send email:", e)
-
 
 @app.route("/")
 @login_required
@@ -137,10 +126,11 @@ def add_license():
 
     license_entry = {
         "id": str(uuid.uuid4()),
-        "license_type": data.get("license_type"),
+        "license_name": data.get("license_name"),
         "price": data.get("price"),
         "validity": data.get("validity"),
-        "expiration_date": data.get("expiration_date")
+        "expiration_date": data.get("expiration_date"),
+        "status": "Pending"
     }
 
     licenses = load_db()
@@ -148,15 +138,17 @@ def add_license():
     save_db(licenses)
     submitted_by = session.get('username', 'Anonymous')
     
-    # Existing code to extract form data
-    """license_type = request.form['license_type']
-    price = request.form['price']
-    validity = request.form['validity']
-    expiration_date = request.form['expiration']
+    body = f"""New license added:
+Name: {data.get('license_name')}
+Price: {data.get('price')}
+Validity: {data.get('validity')}
+Expiration Date: {data.get('expiration_date')}"""
 
-    # Call email function
-    send_admin_notification(license_type, price, validity, expiration_date, submitted_by)
-    """
+    send_notification_email(
+        subject="New License Added",
+        recipients=["nomenjanhr@gmail.com"],
+        body=body
+    )
     return jsonify({"message": "License added", "license": license_entry}), 201
     
 
@@ -213,6 +205,11 @@ def login():
     
     return render_template("login.html")
 """
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":

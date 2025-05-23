@@ -6,7 +6,7 @@ if (form) {
     e.preventDefault();
 
     const license = {
-      license_type: form.license_type.value,
+      license_name: form.license_name.value,
       price: form.price.value,
       validity: form.validity.value,
       expiration_date: form.expiration_date.value,
@@ -64,7 +64,7 @@ async function loadLicenses() {
 
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td>${l.license_type}</td>
+      <td>${l.license_name}</td>
       <td>${l.price}</td>
       <td>${l.validity}</td>
       <td>${l.expiration_date} ${badge}</td>
@@ -93,4 +93,4 @@ async function deleteLicense(id) {
   }
 }
 
-loadLicenses();
+

@@ -1,12 +1,4 @@
 {
-  "Zo": {
-    "id": "2",
-    "username": "Zo",
-    "password": "qsd",
-    "role": "Admin",
-    "entity": null,
-    "status": "approved"
-  },
   "riantsoa": {
     "id": "3",
     "username": "riantsoa",
@@ -23,14 +15,6 @@
     "entity": null,
     "status": "approved"
   },
-  "John": {
-    "id": "4",
-    "username": "John",
-    "password": "aze",
-    "role": "Admin",
-    "entity": null,
-    "status": "approved"
-  },
   "Rajo": {
     "id": "5",
     "username": "Rajo",
@@ -38,5 +22,21 @@
     "role": "CISO",
     "entity": "Pulse",
     "status": "approved"
+  },
+  "Nomenjanahary Zo": {
+    "id": "6",
+    "username": "Nomenjanahary Zo",
+    "password": "aze",
+    "role": "CISO",
+    "entity": "ASS",
+    "status": "approved"
+  },
+  "Doe": {
+    "id": "5",
+    "username": "Doe",
+    "password": "123",
+    "role": "CISO",
+    "entity": "Yas",
+    "status": "pending"
   }
 }
